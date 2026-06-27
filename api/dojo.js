@@ -1,4 +1,4 @@
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const { side, type } = req.query;
 
   // WIZARD PROFESSORS POOL (Snape + Lupin + Sirius)
@@ -34,10 +34,23 @@ module.exports = (req, res) => {
   const randomIndex = Math.floor(Math.random() * pool.length);
   const selectedGifUrl = pool[randomIndex];
 
-  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
-  res.setHeader("CDN-Cache-Control", "no-store");
-  res.setHeader("Surrogate-Control", "no-store");
-  res.setHeader("Location", selectedGifUrl);
+  try {
+    const response = await fetch(selectedGifUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch asset: ${response.statusText}`);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-  return res.status(302).end();
+    res.setHeader("Content-Type", "image/gif");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("CDN-Cache-Control", "no-store");
+    res.setHeader("Surrogate-Control", "no-store");
+
+    return res.status(200).send(buffer);
+  } catch (error) {
+    return res.status(500).send("Error serving GIF asset");
+  }
 };
