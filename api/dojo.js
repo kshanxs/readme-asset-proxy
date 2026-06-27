@@ -1,24 +1,24 @@
 export default async function handler(req, res) {
   const { side, type } = req.query;
 
-  // WIZARD PROFESSORS POOL (Snape + Lupin)
+  // WIZARD PROFESSORS POOL (Snape + Lupin) - using immutable commit SHA for 100% uptime
   const wizardPool = [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/snape_lie.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/lupin.gif"
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/harry_potter/snape_lie.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/harry_potter/lupin.gif"
   ];
 
   // LEFT SIDE POOL (Luffy + both Naruto GIFs)
   const leftFacingPool = [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/luffy.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/naruto_rage.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/naruto.gif"
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/anime/luffy.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/anime/naruto_rage.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/anime/naruto.gif"
   ];
 
   // RIGHT SIDE POOL (Itachi + Nezuko + Goku)
   const rightFacingPool = [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/itachi_mirrored.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/nezuko.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/goku.gif"
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/anime/itachi_mirrored.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/anime/nezuko.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/b289527ff5c03b45e9569cba914f507061f25b70/resources/anime/goku.gif"
   ];
 
   let pool;
