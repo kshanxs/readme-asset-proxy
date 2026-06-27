@@ -1,10 +1,11 @@
 module.exports = (req, res) => {
   const { side, type } = req.query;
 
-  // WIZARD PROFESSORS POOL (Snape + Lupin)
+  // WIZARD PROFESSORS POOL (Snape + Lupin + Sirius)
   const wizardPool = [
     "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/snape_lie.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/lupin.gif"
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/lupin.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/serius.gif"
   ];
 
   // LEFT SIDE POOL (Luffy + both Naruto GIFs)
