@@ -1,18 +1,18 @@
 export default async function handler(req, res) {
   const { side } = req.query;
 
-  // LEFT SIDE POOL (Luffy + both Naruto GIFs) - using immutable commit SHA for 100% uptime
+  // LEFT SIDE POOL (Luffy + both Naruto GIFs)
   const leftFacingPool = [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/f2fd2761f46f20ad7660fc23ddf69ba30ed5a3b6/resources/new/luffy.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/f2fd2761f46f20ad7660fc23ddf69ba30ed5a3b6/resources/naruto_rage.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/f2fd2761f46f20ad7660fc23ddf69ba30ed5a3b6/resources/new/naruto.gif"
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/luffy.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/naruto_rage.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/naruto.gif"
   ];
 
-  // RIGHT SIDE POOL (Itachi + Nezuko + Goku) - using immutable commit SHA for 100% uptime
+  // RIGHT SIDE POOL (Itachi + Nezuko + Goku)
   const rightFacingPool = [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/f2fd2761f46f20ad7660fc23ddf69ba30ed5a3b6/resources/itachi_mirrored.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/f2fd2761f46f20ad7660fc23ddf69ba30ed5a3b6/resources/new/nezuko.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/f2fd2761f46f20ad7660fc23ddf69ba30ed5a3b6/resources/goku.gif"
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/itachi_mirrored.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/nezuko.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/goku.gif"
   ];
 
   const pool = side === "right" ? rightFacingPool : leftFacingPool;
