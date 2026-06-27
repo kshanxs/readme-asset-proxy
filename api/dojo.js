@@ -1,5 +1,11 @@
 export default async function handler(req, res) {
-  const { side } = req.query;
+  const { side, type } = req.query;
+
+  // WIZARD PROFESSORS POOL (Snape + Lupin)
+  const wizardPool = [
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/snape_lie.gif",
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/lupin.gif"
+  ];
 
   // LEFT SIDE POOL (Luffy + both Naruto GIFs)
   const leftFacingPool = [
@@ -15,7 +21,15 @@ export default async function handler(req, res) {
     "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/goku.gif"
   ];
 
-  const pool = side === "right" ? rightFacingPool : leftFacingPool;
+  let pool;
+  if (type === "wizard" || side === "wizard") {
+    pool = wizardPool;
+  } else if (side === "right") {
+    pool = rightFacingPool;
+  } else {
+    pool = leftFacingPool;
+  }
+
   const randomIndex = Math.floor(Math.random() * pool.length);
   const selectedGifUrl = pool[randomIndex];
 
