@@ -83,6 +83,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 		selectedURL = wizardPool[wizardIndex]
 	} else {
+		// Synchronized Anime Duels Pairing
 		var pool []string
 		if side == "right" {
 			pool = pools.Right
@@ -95,8 +96,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		randomIndex := rand.Intn(len(pool))
-		selectedURL = pool[randomIndex]
+		// Synchronize left & right using 7-second time-epoch pairing
+		epochSec := time.Now().Unix()
+		pairIndex := int((epochSec / 7) % int64(len(pool)))
+		selectedURL = pool[pairIndex]
 	}
 
 	// Fetch binary GIF asset from GitHub raw CDN
