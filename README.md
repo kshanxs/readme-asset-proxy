@@ -114,4 +114,4 @@ You can deploy your own instance of this microservice in under 2 minutes:
 
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
