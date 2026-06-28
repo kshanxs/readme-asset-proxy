@@ -23,17 +23,16 @@ module.exports = async (req, res) => {
     "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/goku.gif"
   ];
 
-  let pool;
+  let selectedGifUrl;
   if (type === "wizard" || side === "wizard") {
-    pool = wizardPool;
-  } else if (side === "right") {
-    pool = rightFacingPool;
+    // 7-second deterministic sequential round-robin epoch rotation
+    const wizardIndex = Math.floor(Date.now() / 7000) % wizardPool.length;
+    selectedGifUrl = wizardPool[wizardIndex];
   } else {
-    pool = leftFacingPool;
+    const pool = side === "right" ? rightFacingPool : leftFacingPool;
+    const randomIndex = Math.floor(Math.random() * pool.length);
+    selectedGifUrl = pool[randomIndex];
   }
-
-  const randomIndex = Math.floor(Math.random() * pool.length);
-  const selectedGifUrl = pool[randomIndex];
 
   try {
     const response = await fetch(selectedGifUrl);
