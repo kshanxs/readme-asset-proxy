@@ -77,7 +77,7 @@ For side-by-side header banners requiring matching character duels (e.g., Left v
 
 ## 📦 Decoupled Pool Configuration
 
-Asset resources are decoupled from application binaries and documented directly within [api/pools.json](file:///Users/shubh/Developer/readme-asset-proxy/api/pools.json):
+Asset resources are decoupled from application binaries and documented directly within [`api/pools.json`](api/pools.json):
 
 * 👈 **`left` Pool:** Directional graphics facing right, framed for left-side header placement.
 * 👉 **`right` Pool:** Directional graphics facing left, framed for right-side header placement.
