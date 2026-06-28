@@ -69,14 +69,14 @@ To consume these endpoints inside your GitHub Profile README, wrap the API endpo
 ```html
 <!-- Flanked Header Example -->
 <h2 align="center">
-    <img src="https://dojo-proxy-three.vercel.app/api/dojo?side=left" height="65" alt="Header Left" />
+    <img src="https://readme-asset-proxy-three.vercel.app/api/dojo?side=left" height="65" alt="Header Left" />
     <span>My Dojo</span>
-    <img src="https://dojo-proxy-three.vercel.app/api/dojo?side=right" height="65" alt="Header Right" />
+    <img src="https://readme-asset-proxy-three.vercel.app/api/dojo?side=right" height="65" alt="Header Right" />
 </h2>
 
 <!-- Section Feature Example -->
 <div align="center">
-    <img src="https://dojo-proxy-three.vercel.app/api/dojo?type=wizard" width="120" alt="Wizard Professor" />
+    <img src="https://readme-asset-proxy-three.vercel.app/api/dojo?type=wizard" width="120" alt="Wizard Professor" />
 </div>
 ```
 
