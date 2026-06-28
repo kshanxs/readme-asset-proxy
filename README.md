@@ -38,7 +38,7 @@ When incorporating dynamic image logic (such as character rotators or state coun
 * 🐹 **Blazing Golang Performance:** Compiled native Go 1.22 binary executing on Vercel edge runtimes.
 * 📦 **Compile-Time Asset Embedding:** Uses Go native compile-time embedding (`//go:embed pools.json`) for 0ms disk I/O reads.
 * ⚡ **Serverless Redis Persistence:** Integrates with Upstash Redis via REST API to guarantee strict atomic sequence rotation across concurrent multi-user traffic.
-* 🛡️ **Fail-Open Graceful Resilience:** Built-in fallback to a 7-second time-epoch rotation algorithm (`time.Now().Unix() / 7`) if database credentials are unconfigured or temporarily unreachable.
+* 🛡️ **Fail-Open Graceful Resilience:** Built-in fallback to a 7-second time-epoch rotation algorithm $\lfloor T_{\text{unix}} / 7 \rfloor$ if database credentials are unconfigured or temporarily unreachable.
 * 🔀 **Directional Logic:** Automatically segregates left-facing vs. right-facing graphics to keep section headers visually balanced.
 
 ---
@@ -64,14 +64,16 @@ The microservice employs two distinct algorithmic strategies to deliver dynamic,
 ### 1. Atomic Sequence Tracking (`?type=wizard`)
 For sequential rotators (such as wizard skills headers), state is managed globally using **Upstash Redis**:
 * **Atomic Counter:** Incoming requests trigger a HTTP `GET` call to the Upstash Redis REST API endpoint (`/incr/wizard_counter`).
-* **Sequence Modulo:** The returned atomic counter integer is mapped to the target pool via `counter % len(wizardPool)`. This guarantees strict sequential rotation across concurrent global page views.
+* **Sequence Modulo:** The returned atomic counter integer $c$ is mapped to the target pool index via LaTeX sequence modulo:
+  $$\text{index} = c \pmod{N_{\text{wizard}}}$$
+  This guarantees strict sequential rotation across concurrent global page views.
 * **Fail-Open Resilience:** If Redis credentials (`UPSTASH_REDIS_REST_URL`) are missing or temporarily unreachable, the proxy gracefully falls back to the time-epoch algorithm below to ensure zero request failures.
 
 ### 2. Synchronized Epoch Pairing (`?side=left` & `?side=right`)
 For side-by-side header banners requiring matching character duels (e.g., Left vs. Right flanking graphics), rotation is stateless and deterministic:
-* **7-Second Time-Epoch Window:** Both `left` and `right` requests compute their target index using system unix epoch time:
-  $$\text{index} = \left\lfloor \frac{\text{UnixTime}}{7} \right\rfloor \pmod{\text{len(pool)}}$$
-* **Symmetrical Alignment:** Because both pools share equal array lengths in configuration, requests made within the same 7-second window automatically resolve to matching array indices (e.g., pairing index 0 on the left with index 0 on the right).
+* **7-Second Time-Epoch Window:** Both `left` and `right` requests compute their target index using system unix epoch time $T_{\text{unix}}$:
+  $$\text{index} = \left\lfloor \frac{T_{\text{unix}}}{7} \right\rfloor \pmod{N_{\text{pool}}}$$
+* **Symmetrical Alignment:** Because both pools share equal array lengths ($N_{\text{left}} = N_{\text{right}}$), requests made within the same 7-second window automatically resolve to matching array indices (e.g., pairing index 0 on the left with index 0 on the right).
 
 ---
 
