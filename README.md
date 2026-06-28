@@ -67,7 +67,8 @@ Characters facing right, framed for the left side of section headers:
 
 #### 2. Right Header Pool (`?side=right`)
 Characters facing left, framed for the right side of section headers:
-* 👁️ **Itachi Uchiha - Mirrored** (`Naruto`)
+* ⚡ **Sasuke Uchiha** (`Naruto`)
+* 👁️ **Itachi Uchiha** (`Naruto`)
 * 🎋 **Nezuko Kamado** (`Demon Slayer`)
 * 💥 **Goku** (`Dragon Ball Z`)
 
