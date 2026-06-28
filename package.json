@@ -1,5 +1,5 @@
 {
-  "name": "dojo-proxy",
+  "name": "readme-asset-proxy",
   "version": "1.0.0",
-  "private": true
+  "description": "Lightweight Vercel serverless proxy serving dynamic cache-busted anime & wizard GIF headers for GitHub READMEs."
 }
