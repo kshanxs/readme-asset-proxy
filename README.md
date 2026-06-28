@@ -57,27 +57,33 @@ When incorporating dynamic image logic (such as character rotators or state coun
 
 ---
 
-### Asset Pools
+## ⚙️ Rotation & State Management Mechanics
 
-#### 1. Left Header Pool (`?side=left`)
-Characters facing right, framed for the left side of section headers:
-* 🏴‍☠️ **Monkey D. Luffy** (`One Piece`)
-* ⚡ **Naruto Uzumaki - Rage Form** (`Naruto`)
-* 🍥 **Naruto Uzumaki - Base Form** (`Naruto`)
+The microservice employs two distinct algorithmic strategies to deliver dynamic, zero-caching GIF graphics:
 
-#### 2. Right Header Pool (`?side=right`)
-Characters facing left, framed for the right side of section headers:
-* ⚡ **Sasuke Uchiha** (`Naruto`)
-* 👁️ **Itachi Uchiha** (`Naruto`)
-* 🎋 **Nezuko Kamado** (`Demon Slayer`)
-* 💥 **Goku** (`Dragon Ball Z`)
+### 1. Atomic Sequence Tracking (`?type=wizard`)
+For sequential rotators (such as wizard skills headers), state is managed globally using **Upstash Redis**:
+* **Atomic Counter:** Incoming requests trigger a HTTP `GET` call to the Upstash Redis REST API endpoint (`/incr/wizard_counter`).
+* **Sequence Modulo:** The returned atomic counter integer is mapped to the target pool via `counter % len(wizardPool)`. This guarantees strict sequential rotation across concurrent global page views.
+* **Fail-Open Resilience:** If Redis credentials (`UPSTASH_REDIS_REST_URL`) are missing or temporarily unreachable, the proxy gracefully falls back to the time-epoch algorithm below to ensure zero request failures.
 
-#### 3. Wizard Professors Pool (`?type=wizard`)
-Magical characters for technology and skills section headers:
-* 🧪 **Severus Snape** (`Harry Potter`)
-* 🐺 **Remus Lupin** (`Harry Potter`)
-* 🐾 **Sirius Black** (`Harry Potter`)
-* 🪄 **Albus Dumbledore** (`Harry Potter`)
+### 2. Synchronized Epoch Pairing (`?side=left` & `?side=right`)
+For side-by-side header banners requiring matching character duels (e.g., Left vs. Right flanking graphics), rotation is stateless and deterministic:
+* **7-Second Time-Epoch Window:** Both `left` and `right` requests compute their target index using system unix epoch time:
+  $$\text{index} = \left\lfloor \frac{\text{UnixTime}}{7} \right\rfloor \pmod{\text{len(pool)}}$$
+* **Symmetrical Alignment:** Because both pools share equal array lengths in configuration, requests made within the same 7-second window automatically resolve to matching array indices (e.g., pairing index 0 on the left with index 0 on the right).
+
+---
+
+## 📦 Decoupled Pool Configuration
+
+Asset resources are decoupled from application binaries and documented directly within [api/pools.json](file:///Users/shubh/Developer/readme-asset-proxy/api/pools.json):
+
+* 👈 **`left` Pool:** Directional graphics facing right, framed for left-side header placement.
+* 👉 **`right` Pool:** Directional graphics facing left, framed for right-side header placement.
+* 🪄 **`wizard` Pool:** Sequential assets used for interactive section headers.
+
+To update or expand asset offerings, modify target raw CDN image URLs directly inside `api/pools.json`.
 
 ---
 
