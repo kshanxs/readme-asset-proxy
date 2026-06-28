@@ -41,6 +41,35 @@ When incorporating dynamic image logic (such as character rotators or state coun
 * 🛡️ **Fail-Open Graceful Resilience:** Built-in fallback to a 7-second time-epoch rotation algorithm $\lfloor T_{\text{unix}} / 7 \rfloor$ if database credentials are unconfigured or temporarily unreachable.
 * 🔀 **Directional Logic:** Automatically segregates left-facing vs. right-facing graphics to keep section headers visually balanced.
 
+### 🔄 End-to-End Request Flow Lifecycle
+
+```mermaid
+flowchart TD
+    subgraph Client ["Client & CDN Interception Layer"]
+        A["👤 User Browser<br/>(Viewing GitHub README)"] -->|"1. HTML <img> tag requests proxy URL"| B["🛡️ GitHub Camo CDN Proxy<br/>(camo.githubusercontent.com)"]
+    end
+
+    subgraph Edge ["Vercel Edge Infrastructure (Golang)"]
+        B -->|"2. Forward GET /api request"| C{"🔀 Query Parameter?"}
+        
+        C -->|"type=wizard"| D["🔴 Upstash Redis REST API"]
+        C -->|"side=left | right"| E["⏱️ Time-Epoch Engine<br/>floor(UnixTime / 7) mod N"]
+        
+        D -->|"Atomic INCR count"| F["🔢 Modulo Indexing<br/>counter mod N"]
+        D -.->"Fail-Open Fallback (Offline/Unconfigured)"| E
+        
+        F --> G["📦 Asset Resolution<br/>(Embedded pools.json buffer)"]
+        E --> G
+        
+        G --> H["🛡️ Strict Anti-Cache Header Injection<br/>(Cache-Control: no-store, s-maxage=0)"]
+    end
+
+    subgraph Output ["Client Delivery & Rendering"]
+        H -->|"3. Pipe dynamic GIF binary buffer"| B
+        B -->|"4. Deliver live graphics bypassing CDN cache"| A
+    end
+```
+
 ---
 
 ## 🛣️ API Reference
