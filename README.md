@@ -57,30 +57,26 @@ When incorporating dynamic image logic (such as character rotators or state coun
 
 ---
 
-## 📂 Data Structure (`api/pools.json`)
+### Asset Pools
 
-Asset configuration is completely decoupled from microservice logic. Pools are defined in a clean JSON format embedded at compile time:
+#### 1. Left Header Pool (`?side=left`)
+Characters facing right, framed for the left side of section headers:
+* 🏴‍☠️ **Monkey D. Luffy** (`One Piece`)
+* ⚡ **Naruto Uzumaki - Rage Form** (`Naruto`)
+* 🍥 **Naruto Uzumaki - Base Form** (`Naruto`)
 
-```json
-{
-  "wizard": [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/snape_lie.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/lupin.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/serius.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/albus.gif"
-  ],
-  "left": [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/luffy.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/naruto_rage.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/naruto.gif"
-  ],
-  "right": [
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/itachi_mirrored.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/nezuko.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/anime/goku.gif"
-  ]
-}
-```
+#### 2. Right Header Pool (`?side=right`)
+Characters facing left, framed for the right side of section headers:
+* 👁️ **Itachi Uchiha - Mirrored** (`Naruto`)
+* 🎋 **Nezuko Kamado** (`Demon Slayer`)
+* 💥 **Goku** (`Dragon Ball Z`)
+
+#### 3. Wizard Professors Pool (`?type=wizard`)
+Magical characters for technology and skills section headers:
+* 🧪 **Severus Snape** (`Harry Potter`)
+* 🐺 **Remus Lupin** (`Harry Potter`)
+* 🐾 **Sirius Black** (`Harry Potter`)
+* 🪄 **Albus Dumbledore** (`Harry Potter`)
 
 ---
 
