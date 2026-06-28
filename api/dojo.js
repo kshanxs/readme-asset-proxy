@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/snape_lie.gif",
     "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/lupin.gif",
     "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/serius.gif",
-    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/albus_clap.gif"
+    "https://raw.githubusercontent.com/kshanxs/kshanxs/main/resources/harry_potter/albus.gif"
   ];
 
   // LEFT SIDE POOL (Luffy + both Naruto GIFs)
