@@ -16,9 +16,10 @@ import (
 var poolsJSON []byte
 
 type AssetPools struct {
-	Wizard []string `json:"wizard"`
-	Left   []string `json:"left"`
-	Right  []string `json:"right"`
+	Wizard   []string `json:"wizard"`
+	Left     []string `json:"left"`
+	Right    []string `json:"right"`
+	Hogwarts []string `json:"hogwarts"`
 }
 
 var pools AssetPools
@@ -39,20 +40,28 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	var selectedURL string
 
-	if reqType == "wizard" || side == "wizard" {
-		wizardPool := pools.Wizard
-		if len(wizardPool) == 0 {
-			http.Error(w, "Wizard pool empty", http.StatusInternalServerError)
+	if reqType == "wizard" || side == "wizard" || reqType == "hogwarts" || side == "hogwarts" {
+		var pool []string
+		counterKey := "wizard_counter"
+		if reqType == "hogwarts" || side == "hogwarts" {
+			pool = pools.Hogwarts
+			counterKey = "hogwarts_counter"
+		} else {
+			pool = pools.Wizard
+		}
+
+		if len(pool) == 0 {
+			http.Error(w, "Pool empty", http.StatusInternalServerError)
 			return
 		}
 
-		wizardIndex := -1
+		poolIndex := -1
 		redisURL := os.Getenv("UPSTASH_REDIS_REST_URL")
 		redisToken := os.Getenv("UPSTASH_REDIS_REST_TOKEN")
 
 		// 1. Try Upstash Redis Atomic Increment via REST API
 		if redisURL != "" && redisToken != "" {
-			reqURL := fmt.Sprintf("%s/incr/wizard_counter", redisURL)
+			reqURL := fmt.Sprintf("%s/incr/%s", redisURL, counterKey)
 			req, err := http.NewRequest("GET", reqURL, nil)
 			if err == nil {
 				req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", redisToken))
@@ -68,7 +77,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 							if val < 0 {
 								val = -val
 							}
-							wizardIndex = int(val % int64(len(wizardPool)))
+							poolIndex = int(val % int64(len(pool)))
 						}
 					}
 				}
@@ -76,12 +85,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// 2. Graceful Fallback: 7-second time-epoch rotation
-		if wizardIndex < 0 {
+		if poolIndex < 0 {
 			epochSec := time.Now().Unix()
-			wizardIndex = int((epochSec / 7) % int64(len(wizardPool)))
+			poolIndex = int((epochSec / 7) % int64(len(pool)))
 		}
 
-		selectedURL = wizardPool[wizardIndex]
+		selectedURL = pool[poolIndex]
 	} else {
 		// Synchronized Anime Duels Pairing
 		var pool []string
